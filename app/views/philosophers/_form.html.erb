@@ -1,0 +1,42 @@
+<%= form_with(model: philosopher) do |form| %>
+  <% if philosopher.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(philosopher.errors.count, "error") %> prohibited this philosopher from being saved:</h2>
+
+      <ul>
+        <% philosopher.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :fname, style: "display: block" %>
+    <%= form.text_field :fname %>
+  </div>
+
+  <div>
+    <%= form.label :lname, style: "display: block" %>
+    <%= form.text_field :lname %>
+  </div>
+
+  <div>
+    <%= form.label :birth_year, style: "display: block" %>
+    <%= form.number_field :birth_year %>
+  </div>
+
+  <div>
+    <%= form.label :death_year, style: "display: block" %>
+    <%= form.number_field :death_year %>
+  </div>
+
+  <div>
+    <%= form.label :short_bio, style: "display: block" %>
+    <%= form.textarea :short_bio %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
