@@ -10,7 +10,7 @@
 <% end %>
 
 <%# Initiate the form for the @quote object. It will submit to the quotes_path via POST. %>
-<%= form_with(model: @quote, url: quotes_path, method: :post, local: true) do |f| %>
+<%= form_with(model: @quote, local: true) do |f| %>
 
   <%# This hidden field provides the required user_id from the logged-in user's session. %>
   <%# Users must be logged in to access this form. %>

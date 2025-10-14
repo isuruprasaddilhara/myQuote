@@ -1,17 +1,16 @@
-<!-- app/views/sessions/new.html.erb -->
-<% if flash[:error] %>
-  <p class="error" style="color:red;"><%= flash[:error] %></p>
+<% if flash[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
 <% end %>
 
 <h2>Sign in</h2>
 <%= form_tag login_path, method: :post do %>
-    <div class="form-group" style="padding-bottom: 10px;">
-        <%= email_field_tag :email, nil, required: true, placeholder: 'Email Address', class: 'form-control' %>
-    </div>
-    <div class="form-group" style="padding-bottom: 10px;">
-        <%= password_field_tag :password, nil, required: true, placeholder: 'Password', class: 'form-control' %>
-    </div>
-    <div>
-        <%= submit_tag 'Login', class: 'btn btn-primary' %>
-    </div>
+  <div class="form-group mb-3">
+    <%= email_field_tag :email, nil, required: true, placeholder: 'Email Address', class: 'form-control' %>
+  </div>
+  <div class="form-group mb-3">
+    <%= password_field_tag :password, nil, required: true, placeholder: 'Password', class: 'form-control' %>
+  </div>
+  <%= submit_tag 'Login', class: 'btn btn-primary' %>
 <% end %>

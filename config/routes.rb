@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "search/index"
   #get "search/index"
   #get "home/index"
   resources :categories

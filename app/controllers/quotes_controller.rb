@@ -1,6 +1,7 @@
 class QuotesController < ApplicationController
   before_action :set_quote, only: %i[ show edit update destroy ]
   before_action :require_login, except: %i[ index show ] # 'index' and 'show' can be public
+  #before_action :authorize_user, only: [:edit, :update]
 
   # GET /quotes or /quotes.json
   def index
@@ -13,6 +14,7 @@ class QuotesController < ApplicationController
 
   # GET /quotes/1 or /quotes/1.json
   def show
+    @quote = Quote.find(params[:id])
   end
 
   # GET /quotes/new
@@ -24,6 +26,7 @@ class QuotesController < ApplicationController
 
   # GET /quotes/1/edit
   def edit
+      @quote = Quote.find(params[:id])
   end
 
   # POST /quotes or /quotes.json
@@ -42,15 +45,23 @@ class QuotesController < ApplicationController
   end
 
   # PATCH/PUT /quotes/1 or /quotes/1.json
+  # def update
+  #   respond_to do |format|
+  #     if @quote.update(quote_params)
+  #       format.html { redirect_to @quote, notice: "Quote was successfully updated.", status: :see_other }
+  #       format.json { render :show, status: :ok, location: @quote }
+  #     else
+  #       format.html { render :edit, status: :unprocessable_entity }
+  #       format.json { render json: @quote.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
   def update
-    respond_to do |format|
-      if @quote.update(quote_params)
-        format.html { redirect_to @quote, notice: "Quote was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @quote }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @quote.errors, status: :unprocessable_entity }
-      end
+    @quote = Quote.find(params[:id])
+    if @quote.update(quote_params)
+      redirect_to @quote, notice: 'Quote was successfully updated.'
+    else
+      render :edit
     end
   end
 

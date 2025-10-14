@@ -1,12 +1,25 @@
-<h1>Welcome to myQuote</h1>  
-<h3>Recently Added Quotes</h3> 
-<hr /> 
-<% @quotes.each do |quote| %> 
-<div class="card bg-body-tertiary" style="margin-bottom:10px"> 
-<div class="card-body"> 
-<h4 class="card-title"><%= quote.quote_text %></h4> 
-<p class="card-text"><%= quote.comment %><br />[<a href="/quotes/<%= 
-quote.id %>">Read full Quote</a>]</p> 
-</div> 
-</div> 
-<% end %> 
+<h1 class="mb-4">Welcome to myQuote</h1>
+<h3>Recently Added Quotes</h3>
+<hr />
+
+<div class="row row-cols-1 g-3">
+  <% @quotes.each do |quote| %>
+    <div class="col">
+      <div class="card bg-body-tertiary">
+        <div class="card-body">
+          <h4 class="card-title"><%= truncate(quote.quote_text, length: 120) %></h4>
+          <% if quote.comment.present? %>
+            <p class="card-text"><%= truncate(quote.comment, length: 140) %></p>
+          <% end %>
+          <p class="mb-2">
+            <span class="badge bg-info text-dark">Year: <%= quote.published_year || "N/A" %></span>
+            <% quote.categories.each do |category| %>
+              <span class="badge bg-secondary ms-1"><%= category.category_name %></span>
+            <% end %>
+          </p>
+          <%= link_to "Read full Quote", quote_path(quote), class: "btn btn-sm btn-outline-primary" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

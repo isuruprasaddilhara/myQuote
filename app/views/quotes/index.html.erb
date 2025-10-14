@@ -1,16 +1,45 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Quotes" %>
 
-<h1>Quotes</h1>
+<h1 class="mb-4">Quotes</h1>
 
-<div id="quotes">
+<% if notice %>
+  <div class="alert alert-success"><%= notice %></div>
+<% end %>
+
+<div id="quotes" class="row row-cols-1 row-cols-md-2 g-4">
   <% @quotes.each do |quote| %>
-    <%= render quote %>
-    <p>
-      <%= link_to "Show this quote", quote %>
-    </p>
+    <div class="col">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title"><%= truncate(quote.quote_text, length: 80) %></h5>
+          <% if quote.philosopher %>
+            <p class="card-text text-muted">
+              <strong>Philosopher:</strong> <%= quote.philosopher.lname %>
+            </p>
+          <% end %>
+          <p class="card-text"><%= quote.comment %></p>
+          <p class="mb-2">
+            <span class="badge bg-info text-dark">Year: <%= quote.published_year %></span>
+            <% quote.categories.each do |category| %>
+              <span class="badge bg-secondary"><%= category.category_name %></span>
+            <% end %>
+            <% if quote.is_public %>
+              <span class="badge bg-success">Public</span>
+            <% end %>
+          </p>
+          <div class="d-flex justify-content-between">
+            <%= link_to "Show this quote", quote, class: "btn btn-outline-primary btn-sm" %>
+            <% if quote.user == current_user %>
+              <%= link_to "Edit", edit_quote_path(quote), class: "btn btn-outline-secondary btn-sm" %>
+              <%= button_to "Destroy this quote", quote, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm ms-2" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New quote", new_quote_path %>
+<div class="mt-4">
+  <%= link_to "New quote", new_quote_path, class: "btn btn-primary btn-lg" %>
+</div>
