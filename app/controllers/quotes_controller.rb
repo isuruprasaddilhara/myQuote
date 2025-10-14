@@ -1,7 +1,7 @@
 class QuotesController < ApplicationController
   before_action :set_quote, only: %i[ show edit update destroy ]
   before_action :require_login, except: %i[ index show ] # 'index' and 'show' can be public
-  #before_action :authorize_user, only: [:edit, :update]
+  #before_action :authorize_owner, only: [:edit, :update]
 
   # GET /quotes or /quotes.json
   def index
@@ -93,4 +93,12 @@ class QuotesController < ApplicationController
         quote_categories_attributes: [:id, :category_id, :_destroy]
       )
     end
+
+    # def authorize_owner
+    # # Check if the quote's user is NOT the same as the current logged-in user
+    #   unless @user == current_user
+    #   # If they are not the owner, redirect them and show an alert.
+    #     redirect_to root_path, alert: 'You are not authorized to perform that action.'
+    #   end
+    # end
 end
