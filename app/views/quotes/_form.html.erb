@@ -1,47 +1,91 @@
-<%= form_with(model: quote) do |form| %>
-  <% if quote.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(quote.errors.count, "error") %> prohibited this quote from being saved:</h2>
-
-      <ul>
-        <% quote.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :quote_text, style: "display: block" %>
-    <%= form.textarea :quote_text %>
-  </div>
-
-  <div>
-    <%= form.label :published_year, style: "display: block" %>
-    <%= form.number_field :published_year %>
-  </div>
-
-  <div>
-    <%= form.label :comment, style: "display: block" %>
-    <%= form.textarea :comment %>
-  </div>
-
-  <div>
-    <%= form.label :is_public, style: "display: block" %>
-    <%= form.checkbox :is_public %>
-  </div>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.label :philosopher_id, style: "display: block" %>
-    <%= form.text_field :philosopher_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+<%# This will display validation errors for the Quote and its nested categories %>
+<% if @quote.errors.any? %>
+  <div class="alert alert-danger">
+    <ul>
+      <% @quote.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
+
+<%# Initiate the form for the @quote object. It will submit to the quotes_path via POST. %>
+<%= form_with(model: @quote, url: quotes_path, method: :post, local: true) do |f| %>
+
+  <%# This hidden field provides the required user_id from the logged-in user's session. %>
+  <%# Users must be logged in to access this form. %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+
+  <%# Field for the main quote text with Bootstrap styling. %>
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= f.text_area :quote_text, placeholder: 'Enter the quote text...', class: 'form-control', required: true %>
+  </div>
+
+  <%# Dropdown to select a Philosopher. %>
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= f.label :philosopher_id %>
+    <%= f.collection_select :philosopher_id, Philosopher.all, :id, :fname, { prompt: 'Select a Philosopher' }, { class: 'form-control' } %>
+  </div>
+
+  <%# Optional fields for publication year and a user comment. %>
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= f.number_field :published_year, placeholder: 'Publication Year (Optional)', class: 'form-control' %>
+  </div>
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= f.text_area :comment, placeholder: 'Your Comment (Optional)', class: 'form-control' %>
+  </div>
+
+  <%# Checkbox to set the quote's visibility. %>
+  <div class="form-check" style="padding-bottom: 10px;">
+    <%= f.label :is_public do %>
+      Make Quote Public
+      <%= f.check_box :is_public, class: "form-check-input" %>
+    <% end %>
+  </div>
+
+  <hr>
+  <h5>Categories</h5>
+  <%# Container for the quote's categories. %>
+  <div id="categories-container">
+    <%# Use fields_for to create form elements for the nested quote_categories association. %>
+    <%= f.fields_for :quote_categories do |qc| %>
+      <div class="category-field row mb-2">
+        <div class="col-auto">
+          <%# Create a dropdown list to select a category. %>
+          <%= qc.label :category_id, "Category", class: "form-label d-inline-block me-2" %>
+          <%= qc.collection_select :category_id, Category.all, :id, :category_name, { include_blank: 'Select a category...' }, { class: "form-control d-inline-block" } %>
+        </div>
+        <div class="col-auto align-self-end">
+          <%# This link, powered by JavaScript, will remove the associated category row. %>
+          <%= link_to '[-] Remove', '#', class: 'remove-category', style: "color: red; text-decoration: none;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%# The submit button for the form. %>
+  <div class="mt-3">
+    <%= f.submit 'Create Quote', class: 'btn btn-primary btn-lg' %>
+  </div>
+<% end %>\
+
+<script>
+  // Wait for the page to load completely.
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add an event listener that watches for clicks anywhere on the document.
+    document.addEventListener('click', function(e) {
+      // If the clicked element has the 'remove-category' class...
+      if (e.target && e.target.classList.contains('remove-category')) {
+        // ...prevent its default link behavior.
+        e.preventDefault();
+
+        // Find all category fields to ensure we don't remove the last one.
+        const categoryFields = document.querySelectorAll('.category-field');
+        if (categoryFields.length > 1) {
+          // Find the closest parent with the 'category-field' class and remove it.
+          e.target.closest('.category-field').remove();
+        }
+      }
+    });
+  });
+</script>

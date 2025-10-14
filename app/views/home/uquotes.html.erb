@@ -1,0 +1,12 @@
+<h1>Welcome to myQuote</h1>  
+<h3>Recently Added Quotes</h3> 
+<hr /> 
+<% @quotes.each do |quote| %> 
+<div class="card bg-body-tertiary" style="margin-bottom:10px"> 
+<div class="card-body"> 
+<h4 class="card-title"><%= quote.quote_text %></h4> 
+<p class="card-text"><%= quote.comment %><br />[<a href="/quotes/<%= 
+quote.id %>">Read full recipe</a>]</p> 
+</div> 
+</div> 
+<% end %> 
