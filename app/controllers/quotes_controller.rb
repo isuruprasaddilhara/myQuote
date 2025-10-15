@@ -70,7 +70,7 @@ class QuotesController < ApplicationController
     @quote.destroy!
 
     respond_to do |format|
-      format.html { redirect_to quotes_path, notice: "Quote was successfully destroyed.", status: :see_other }
+      format.html { redirect_to quotes_path, notice: "Quote was successfully deleted.", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -93,12 +93,4 @@ class QuotesController < ApplicationController
         quote_categories_attributes: [:id, :category_id, :_destroy]
       )
     end
-
-    # def authorize_owner
-    # # Check if the quote's user is NOT the same as the current logged-in user
-    #   unless @user == current_user
-    #   # If they are not the owner, redirect them and show an alert.
-    #     redirect_to root_path, alert: 'You are not authorized to perform that action.'
-    #   end
-    # end
 end

@@ -6,7 +6,4 @@ class Quote < ApplicationRecord
 
    # Allow quotes to accept nested attributes for the join table
   accepts_nested_attributes_for :quote_categories, reject_if: :all_blank, allow_destroy: true
-
-  # A quote must have at least one category [cite: 40]
-  validates :quote_categories, presence: { message: "must have at least one category" }
 end

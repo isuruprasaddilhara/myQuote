@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @quotes = Quote.includes(:categories).take(10) 
+    @quotes = Quote.includes(:categories).where(is_public: true).limit(10)
   end
   def uquotes
     @quotes = Quote.includes(:categories).where(user_id: session[:user_id]) 

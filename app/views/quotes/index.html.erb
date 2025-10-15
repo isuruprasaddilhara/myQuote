@@ -25,13 +25,15 @@
             <% end %>
             <% if quote.is_public %>
               <span class="badge bg-success">Public</span>
+            <% else %>
+              <span class="badge bg-warning text-dark">Private</span>
             <% end %>
           </p>
           <div class="d-flex justify-content-between">
             <%= link_to "Show this quote", quote, class: "btn btn-outline-primary btn-sm" %>
             <% if quote.user == current_user %>
               <%= link_to "Edit", edit_quote_path(quote), class: "btn btn-outline-secondary btn-sm" %>
-              <%= button_to "Destroy this quote", quote, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm ms-2" %>
+              <%= button_to "Delete this quote", quote, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm ms-2" %>
             <% end %>
           </div>
         </div>
