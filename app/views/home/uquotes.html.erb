@@ -1,26 +1,31 @@
-<%# This view displays all quotes in a structured card layout. 
-     It provides functionality for listing, viewing, editing, 
-     and deleting quotes depending on the logged-in user’s access. %>
-<% content_for :title, "Quotes" %>
+<% content_for :title, "Quotes" %> <%# Sets the page title to "Quotes" for use in the application layout %
 
+<%# Main heading for the Quotes page %>
 <h1 class="mb-4">Quotes</h1>
 
+<%# Display a success message (notice) if available — usually shown after create, update, or delete actions %>
 <% if notice %>
   <div class="alert alert-success"><%= notice %></div>
 <% end %>
 
+<%# Container for displaying all quote cards in a responsive grid layout %>
+
+<%# Iterate through each quote object in @quotes collection passed from the controller %>
 <div id="quotes" class="row row-cols-1 row-cols-md-2 g-4">
   <% @quotes.each do |quote| %>
     <div class="col">
       <div class="card mb-3">
         <div class="card-body">
+          <%# Display a truncated version of the quote text (limited to 80 characters) as the card title %>
           <h5 class="card-title"><%= truncate(quote.quote_text, length: 80) %></h5>
+
+          <%# If the quote is linked to a philosopher, display the philosopher’s last name %>
           <% if quote.philosopher %>
             <p class="card-text text-muted">
               <strong>Philosopher:</strong> <%= quote.philosopher.lname %>
             </p>
           <% end %>
-          <p class="card-text"><%= quote.comment %></p>
+          <p class="card-text"><%= quote.comment %></p>  <%# Display the comment or additional note associated with the quote %>
           <p class="mb-2">
             <span class="badge bg-info text-dark">Year: <%= quote.published_year %></span>
             <% quote.categories.each do |category| %>
@@ -47,6 +52,6 @@
 
 <% if logged_in? %>
   <div class="mt-4">
-    <%= link_to "New quote", new_quote_path, class: "btn btn-primary btn-lg" %>
+    <%= link_to "Add New quote", new_quote_path, class: "btn btn-primary btn-lg" %>
   </div>
 <% end %>

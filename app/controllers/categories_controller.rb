@@ -1,25 +1,42 @@
 class CategoriesController < ApplicationController
+  # CategoriesController handles all actions related to the Category model.It provides standard CRUD (Create, Read, Update, Delete) functionality
+  # and ensures proper setup and parameter handling for each action.
+
+  # This callback runs before show, edit, update, and destroy actions.
+  # It finds the category by its ID and sets it to @category, so these actions
+  # can use it directly without repeating the code in each method.
   before_action :set_category, only: %i[ show edit update destroy ]
 
-  # GET /categories or /categories.json
+  # GET /categories
+  # Lists all categories in the system.
+  # The @categories instance variable will be available in the view for display.
   def index
     @categories = Category.all
   end
 
-  # GET /categories/1 or /categories/1.json
+  # GET /categories/:id
+  # Shows the details of a single category.
+  # The @category instance variable is set by the set_category callback.
   def show
   end
 
   # GET /categories/new
+  # Prepares a new Category object for the form in the view.
+  # This does not save anything yet; it just allows the user to fill in details.
   def new
     @category = Category.new
   end
 
   # GET /categories/1/edit
+  # Prepares an existing category for editing.
   def edit
   end
 
-  # POST /categories or /categories.json
+   # POST /categories
+  # Handles the creation of a new category using the submitted form data.
+  # - If saving succeeds, it redirects to the category's show page with a success notice.
+  # - If saving fails due to validation errors, it re-renders the new form with error messages.
+  # Responds to both HTML and JSON formats.
   def create
     @category = Category.new(category_params)
 
@@ -34,7 +51,11 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /categories/1 or /categories/1.json
+  # PATCH/PUT /categories/:id
+  # Updates an existing category with the submitted form data.
+  # - If updating succeeds, redirects to the category's show page with a success notice.
+  # - If updating fails, re-renders the edit form with errors.
+  # Responds to both HTML and JSON formats.
   def update
     respond_to do |format|
       if @category.update(category_params)
@@ -47,7 +68,10 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # DELETE /categories/1 or /categories/1.json
+  # DELETE /categories/:id
+  # Deletes the category from the database.
+  # After deletion, redirects to the list of categories with a notice.
+  # Responds to both HTML and JSON formats.
   def destroy
     @category.destroy!
 

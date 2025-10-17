@@ -1,21 +1,35 @@
+<%# =============================================================== %>
+<%# Application Layout File (app/views/layouts/application.html.erb) %>
+<%# This is the main layout template for the MyQuote application.   %>
+<%# It defines the global HTML structure, page head, and includes   %>
+<%# shared components like the navigation header and Bootstrap setup. %>
+<%# =============================================================== %>
+
 <!DOCTYPE html>
 <html>
   <head>
+    <%# ---------- Page Metadata and Title Section ---------- %>
+    <%# Sets the dynamic page title (using 'content_for :title' if defined, otherwise defaults to "My Quote"). %>
     <title><%= content_for(:title) || "My Quote" %></title>
+
+    <%# Ensures proper scaling and responsiveness on mobile and desktop browsers. %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+
+    <%# Adds essential Rails security tokens to prevent CSRF and enforce Content Security Policy. %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%# ---------- External CSS and JS Libraries ---------- %>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
-
+    <%# ---------- Optional Page-Specific Head Content ---------- %>
+    <%# Allows individual pages to inject additional head elements (e.g., custom scripts or meta tags). %>
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
+    <%# Sets the favicon and Apple touch icon for browsers and mobile devices. %>
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
@@ -26,7 +40,7 @@
   </head>
 
   <body>
-    <%= render 'layouts/header' %> 
-    <%= yield %>
+    <%= render 'layouts/header' %> <%# Renders the shared navigation header (stored in layouts/_header.html.erb). %>
+    <%= yield %> <%# Injects page-specific content (from each view) into the layout body. %>
   </body>
 </html>

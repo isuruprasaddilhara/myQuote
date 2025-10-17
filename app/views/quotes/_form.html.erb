@@ -56,9 +56,9 @@
           <%= qc.collection_select :category_id, Category.all, :id, :category_name, { include_blank: 'Select a category...' }, { class: "form-control d-inline-block" } %>
         </div>
         <div class="col-auto align-self-end">
-          <%# This link, powered by JavaScript, will remove the associated category row. %>
-          <%= link_to '[-] Remove', '#', class: 'remove-category', style: "color: red; text-decoration: none;" %>
-        </div>
+            <%= qc.hidden_field :_destroy, value: "0", class: "_destroy-field" %>
+            <%= link_to '[-] Remove this ingredient', '#', class: 'remove-ingredient', style: "color: red; text-decoration: none;" %> <!-- Allow users to remove a field -->
+          </div>
       </div>
     <% end %>
   </div>
@@ -89,4 +89,6 @@ function setupRemoveIngredient() {
 
 document.addEventListener('DOMContentLoaded', setupRemoveIngredient);
 document.addEventListener('turbo:load', setupRemoveIngredient);
+
+</script>
 

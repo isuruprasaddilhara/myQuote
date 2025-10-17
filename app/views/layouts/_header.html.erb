@@ -1,11 +1,19 @@
+<%# =============================================================== %>
+<%# Navigation Bar                %>
+<%# This section creates a dynamic, responsive navigation bar using %>
+<%# Bootstrap classes. It adjusts displayed links based on user     %>
+<%# authentication status and administrative privileges.            %>
+<%# =============================================================== %>
+
 <nav class="navbar bg-dark border-bottom border-body navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-  <div class="container-fluid">
+  <div class="container-fluid">  <%# Responsive container for all navbar content %>
     <!-- <a class="navbar-brand" href="#">RB Home</a> -->
-    
+    <%# This button toggles the collapsed navigation menu on smaller screens. %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">  <%# The collapsible navigation area containing all links and dropdowns. %>
+      <%# Main navigation links (Home, Search) always visible to all users. %>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
         <%= link_to "Home", root_path, class:"nav-link" %>
@@ -14,7 +22,7 @@
         <li><a class="nav-link" href="/search">Search</a></li> 
         </li>
 
-        <% if !logged_in? %> 
+        <% if !logged_in? %>  <%# Conditional rendering: if the user is NOT logged in, show Sign Up and Sign In links. %>
           <li class="nav-item"> 
             <li><%= link_to 'Sign Up', new_user_path, class:"nav-link" %></li> 
           </li> 
@@ -24,26 +32,26 @@
             <li><%= link_to 'Sign In', login_path, class:"nav-link" %></li> 
           </li> 
         <% end %> 
-        <% if logged_in? %> 
+        <% if logged_in? %> <%# If the user IS logged in, show the Sign Out button instead of login/signup. %>
           <li class="nav-item"> 
             <%= button_to "Sign Out", logout_path, method: :delete, class:"btn btn-link nav-link" %> 
           </li> 
         <% end %> 
-        <% if logged_in? && !is_administrator? %> 
+        <% if logged_in? && !is_administrator? %>  <%# If a normal (non-admin) user is logged in, display a "User" dropdown menu. %>
           <li class="nav-item dropdown"> 
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
           User 
           </a> 
           <ul class="dropdown-menu"> 
           <%= link_to "My Account", userhome_path, class:"dropdown-item" %> 
-          <%= link_to "My Quotes", quotes_path, class:"dropdown-item" %> 
+          <%= link_to "My Quotes", your_quotes_path, class:"dropdown-item" %> 
           <li><hr class="dropdown-divider"></li> 
           <%= link_to "Add New Quote", new_quote_path, class:"dropdown-item" %>
           </ul> 
           </li> 
           <% end %>
 
-        <% if logged_in? && is_administrator? %> 
+        <% if logged_in? && is_administrator? %>  <%# If an administrator is logged in, show the Admin dropdown with management links. %>
           <li class="nav-item dropdown"> 
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a> 
           <ul class="dropdown-menu"> 
