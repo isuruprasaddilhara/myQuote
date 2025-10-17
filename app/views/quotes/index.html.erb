@@ -34,7 +34,7 @@
           </p>
           <div class="d-flex justify-content-between">
             <%= link_to "Show this quote", quote, class: "btn btn-outline-primary btn-sm" %>
-            <% if quote.user == current_user %>
+            <% if quote.user == current_user || is_administrator? %>
               <%= link_to "Edit", edit_quote_path(quote), class: "btn btn-outline-secondary btn-sm" %>
               <%= button_to "Delete this quote", quote, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm ms-2" %>
             <% end %>

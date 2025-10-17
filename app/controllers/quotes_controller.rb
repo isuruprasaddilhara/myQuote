@@ -29,7 +29,7 @@ class QuotesController < ApplicationController
   def new
       @quote = Quote.new
       # Build 3 initial fields for adding categories. This is enough for the prototype.
-      3.times { @quote.quote_categories.build }
+      5.times { @quote.quote_categories.build }
   end
 
   # GET /quotes/:id/edit

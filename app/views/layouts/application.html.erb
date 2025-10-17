@@ -29,18 +29,15 @@
     <%# Allows individual pages to inject additional head elements (e.g., custom scripts or meta tags). %>
     <%= yield :head %>
 
-    <%# Sets the favicon and Apple touch icon for browsers and mobile devices. %>
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= render 'layouts/header' %> <%# Renders the shared navigation header (stored in layouts/_header.html.erb). %>
+  <%= render 'layouts/header' %> <%# Renders the shared navigation header (stored in layouts/_header.html.erb). %>
+  <div class="container mt-2 mb-2"> <%# keep the page margin in every page %>
     <%= yield %> <%# Injects page-specific content (from each view) into the layout body. %>
+  <div>
   </body>
 </html>

@@ -14,16 +14,20 @@
   <%# --- User Detail Fields --- %>
   <%# These fields are read-only for admins but editable for the user themselves. %>
   <div class="form-group" style="padding-bottom: 10px;">
-    <%= form.text_field :fname, class: 'form-control', readonly: is_administrator? %>
+    <%= form.label :fname, "First Name:", class: "form-label" %>
+    <%= form.text_field :fname, class: 'form-control' %>
   </div>
   <div class="form-group" style="padding-bottom: 10px;">
-    <%= form.text_field :lname, class: 'form-control', readonly: is_administrator? %>
+    <%= form.label :lname, "Last Name:", class: "form-label" %>
+    <%= form.text_field :lname, class: 'form-control' %>
   </div>
   <div class="form-group" style="padding-bottom: 10px;">
-    <%= form.email_field :email, class: 'form-control', readonly: is_administrator? %>
+    <%= form.label :email, "Email:", class: "form-label" %>
+    <%= form.email_field :email, class: 'form-control' %>
   </div>
   <div class="form-group" style="padding-bottom: 10px;">
-    <%= form.password_field :password, placeholder: 'New Password (leave blank if unchanged)', class: 'form-control', readonly: is_administrator? %>
+    <%= form.label :password, "Password:", class: "form-label" %>
+    <%= form.password_field :password, placeholder: 'New Password (leave blank if unchanged)', class: 'form-control' %>
   </div>
 
   <%# --- Administrator-Only Fields --- %>
@@ -39,6 +43,10 @@
   <% end %>
 
   <div>
-    <%= form.submit 'Update', class: 'btn btn-primary' %>
+    <% if logged_in? %>
+      <%= form.submit 'Update', class: 'btn btn-primary' %>
+    <% else %>
+      <%= form.submit 'Sign up', class: 'btn btn-primary' %>
+    <% end %>
   </div>
 <% end %>

@@ -27,8 +27,14 @@
     <%= f.collection_select :philosopher_id, Philosopher.all, :id, :fname, { prompt: 'Select a Philosopher' }, { class: 'form-control' } %>
   </div>
 
+  <!-- Button to go to the new philosopher form -->
+  <div class="mt-3 mb-3">
+    <%= link_to "Add New Philosopher", new_philosopher_path, class: "btn btn-success" %>
+  </div>
+
+
   <%# Optional fields for publication year and a user comment. %>
-  <div class="form-group" style="padding-bottom: 10px;">
+  <div class="form-group" style="padding-bottom: 10px; class="mt-3">
     <%= f.number_field :published_year, placeholder: 'Publication Year (Optional)', class: 'form-control' %>
   </div>
   <div class="form-group" style="padding-bottom: 10px;">
@@ -57,7 +63,7 @@
         </div>
         <div class="col-auto align-self-end">
             <%= qc.hidden_field :_destroy, value: "0", class: "_destroy-field" %>
-            <%= link_to '[-] Remove this ingredient', '#', class: 'remove-ingredient', style: "color: red; text-decoration: none;" %> <!-- Allow users to remove a field -->
+            <%= link_to '[-] Remove this category', '#', class: 'remove-category', style: "color: red; text-decoration: none;" %> <!-- Allow users to remove a field -->
           </div>
       </div>
     <% end %>
@@ -70,13 +76,13 @@
 <% end %>
 
 <script>
-function setupRemoveIngredient() {
+function setupRemoveCategory() {
   document.addEventListener('click', function(e) {
-    if (e.target && e.target.classList.contains('remove-ingredient')) {
+    if (e.target && e.target.classList.contains('remove-category')) {
       e.preventDefault();
-      const ingredientFields = document.querySelectorAll('.ingredient-field');
-      if (ingredientFields.length > 1) {
-        const field = e.target.closest('.ingredient-field');
+      const categoryFields = document.querySelectorAll('.category-field');
+      if (categoryFields.length > 1) {
+        const field = e.target.closest('.category-field');
         const destroyInput = field.querySelector('input._destroy-field');
         if (destroyInput) {
           destroyInput.value = '1';
@@ -87,8 +93,8 @@ function setupRemoveIngredient() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', setupRemoveIngredient);
-document.addEventListener('turbo:load', setupRemoveIngredient);
+document.addEventListener('DOMContentLoaded', setupRemoveCategory);
+document.addEventListener('turbo:load', setupRemoveCategory);
 
 </script>
 

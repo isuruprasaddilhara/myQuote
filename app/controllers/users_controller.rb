@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   # If not, re-renders the registration form with validation errors
   def create
     @user = User.new(user_params)
-
+    @user.status = "Active"
     respond_to do |format|
       if @user.save
         # Redirects to the login page after successful registration.
