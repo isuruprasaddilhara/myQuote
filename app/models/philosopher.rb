@@ -6,8 +6,8 @@ class Philosopher < ApplicationRecord
     validates :lname, length: { maximum: 50 }, allow_blank: true
 
     # Birth year and death year: optional, must be integers in a reasonable range
-    validates :birth_year, numericality: { only_integer: true, greater_than_or_equal_to: -10000, less_than_or_equal_to: Date.today.year }, allow_nil: true
-    validates :death_year, numericality: { only_integer: true, greater_than_or_equal_to: -10000, less_than_or_equal_to: Date.today.year }, allow_nil: true
+    validates :birth_year, numericality: { only_integer: true, less_than_or_equal_to: Date.today.year }, allow_nil: true
+    validates :death_year, numericality: { only_integer: true, less_than_or_equal_to: Date.today.year }, allow_nil: true
 
     # Custom validation: death_year cannot be before birth_year
     validate :death_after_birth
@@ -16,7 +16,7 @@ class Philosopher < ApplicationRecord
     validates :short_bio, length: { maximum: 1000 }, allow_blank: true
 
     private
-
+    #Determine whether death year is greater than birth year or not
     def death_after_birth
         return if birth_year.blank? || death_year.blank?
 
