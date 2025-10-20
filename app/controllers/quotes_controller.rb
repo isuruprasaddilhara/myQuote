@@ -10,17 +10,35 @@ class QuotesController < ApplicationController
   # index and show actions are public, so they are excluded.
   before_action :require_login, except: %i[ index show ] 
 
-  # GET /quotes
-  # Fetch all public quotes from the database, ordered by creation date (newest first)
+   # Ensure only the owner or an admin can edit, update, or delete a quote.
+  before_action :authorize_user!, only: %i[ show edit update destroy ]
+
+ # GET /quotes
+  # Shows:
+  #  - all public quotes
+  #  - the logged-in user's private quotes
+  # Admins see all quotes.
   def index
-    @quotes = Quote.where(is_public: true).order(created_at: :desc)
+    if is_administrator?
+      @quotes = Quote.order(created_at: :desc)
+    elsif logged_in?
+      @quotes = Quote.where("is_public = ? OR user_id = ?", true, current_user.id).order(created_at: :desc)
+    else
+      @quotes = Quote.where(is_public: true).order(created_at: :desc)
+    end
   end
 
   # GET /quotes/:id
   # Shows a single quote identified by its ID.
   # The @quote instance variable is set using the set_quote callback.
   def show
-    @quote = Quote.find(params[:id])
+    # Only allow access if:
+    # - The quote is public
+    # - OR belongs to the logged-in user
+    # - OR the user is an admin
+    unless @quote.is_public? || (logged_in? && current_user == @quote.user) || is_administrator?
+      redirect_to quotes_path, alert: "You are not authorized to view this quote."
+    end
   end
 
   # GET /quotes/new
@@ -91,6 +109,13 @@ class QuotesController < ApplicationController
     # This avoids repeating the same code in show, edit, update, and destroy actions.
     def set_quote
       @quote = Quote.find(params[:id])
+    end
+
+    # Ensures only the quote owner or admin can modify or delete a quote.
+    def authorize_user!
+      unless current_user == @quote.user || is_administrator?
+        redirect_to quotes_path, alert: "You are not authorized to perform this action."
+      end
     end
 
     # Strong parameters: only allows trusted parameters to be used for mass assignment.

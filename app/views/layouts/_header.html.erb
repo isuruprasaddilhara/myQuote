@@ -7,7 +7,8 @@
 
 <nav class="navbar bg-dark border-bottom border-body navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
   <div class="container-fluid">  <%# Responsive container for all navbar content %>
-    <!-- <a class="navbar-brand" href="#">RB Home</a> -->
+     <%# Brand name link (added "MyQuote" at the beginning of the navbar) %>
+    <%= link_to "MyQuote", root_path, class: "navbar-brand fw-bold text-light" %>
     <%# This button toggles the collapsed navigation menu on smaller screens. %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

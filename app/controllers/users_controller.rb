@@ -7,12 +7,18 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
   # Ensures that only logged-in users can access sensitive actions. New users can still access the registration page.
   before_action :require_login, except: [:new, :create] 
+  # Ensure users can only access their own profiles unless they are admins.
+  before_action :authorize_user!, only: %i[ show edit update destroy ]
 
   # GET /users
   # Retrieves and displays a list of all users in the system.
   # This is typically accessible only to admin users.
   def index
-    @users = User.all
+    if current_user.is_admin?
+      @users = User.all
+    else
+      redirect_to root_path, alert: "You are not authorized to view this page."
+    end
   end
 
   # GET /users/1 or /users/1.json
@@ -85,6 +91,13 @@ class UsersController < ApplicationController
     # This method is reused by multiple actions to avoid redundant code.
     def set_user
       @user = User.find(params.expect(:id))
+    end
+
+    # Authorizes user access.
+    def authorize_user!
+      unless current_user == @user || current_user.is_admin?
+        redirect_to root_path, alert: "You are not authorized to access this page."
+      end
     end
 
     # Defines the list of permitted parameters for user creation and update.

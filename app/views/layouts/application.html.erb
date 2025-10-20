@@ -5,6 +5,7 @@
 <%# shared components like the navigation header and Bootstrap setup. %>
 <%# =============================================================== %>
 
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -37,6 +38,12 @@
   <body>
   <%= render 'layouts/header' %> <%# Renders the shared navigation header (stored in layouts/_header.html.erb). %>
   <div class="container mt-2 mb-2"> <%# keep the page margin in every page %>
+    <%#This shows error and success messages" %>
+    <% flash.each do |key, message| %>
+    <div class="alert alert-<%= key == "alert" ? "danger" : "success" %>">
+      <%= message %>
+    </div>
+    <% end %>
     <%= yield %> <%# Injects page-specific content (from each view) into the layout body. %>
   <div>
   </body>
