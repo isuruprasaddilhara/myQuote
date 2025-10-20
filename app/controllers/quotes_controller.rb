@@ -11,7 +11,7 @@ class QuotesController < ApplicationController
   before_action :require_login, except: %i[ index show ] 
 
    # Ensure only the owner or an admin can edit, update, or delete a quote.
-  before_action :authorize_user!, only: %i[ show edit update destroy ]
+  before_action :authorize_user!, only: %i[ edit update destroy ]
 
  # GET /quotes
   # Shows:
